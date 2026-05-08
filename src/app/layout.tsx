@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Inter, JetBrains_Mono } from "next/font/google"
+import { ThemeProvider } from "@/lib/theme"
 import "./globals.css"
 
 const inter = Inter({
@@ -27,8 +28,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body>{children}</body>
+    <html
+      lang="en"
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Inline script to apply theme before first paint — prevents flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})()`,
+          }}
+        />
+      </head>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   )
 }

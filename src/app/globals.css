@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* ── Dark theme (default) ─────────────────────────────── */
+:root,
+[data-theme="dark"] {
   --bg-base: #080808;
   --bg-surface: #0f0f0f;
   --bg-elevated: #141414;
@@ -14,8 +16,26 @@
   --accent-cyan: #00c8ff;
   --accent-red: #ff3c5f;
   --terminal-glow: rgba(0, 232, 122, 0.06);
+  --grid-line: rgba(30, 30, 30, 0.5);
 }
 
+/* ── Light theme ──────────────────────────────────────── */
+[data-theme="light"] {
+  --bg-base: #f7f7f5;
+  --bg-surface: #efefed;
+  --bg-elevated: #e6e6e4;
+  --border: #d4d4d2;
+  --text-primary: #0a0a0a;
+  --text-secondary: #4a4a4a;
+  --text-muted: #999999;
+  --accent-green: #007a40;
+  --accent-cyan: #006d8f;
+  --accent-red: #bf1f3d;
+  --terminal-glow: rgba(0, 122, 64, 0.07);
+  --grid-line: rgba(180, 180, 178, 0.6);
+}
+
+/* ── Base reset ───────────────────────────────────────── */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -33,30 +53,20 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 ::selection {
-  background: rgba(0, 232, 122, 0.25);
+  background: rgba(0, 122, 64, 0.2);
   color: var(--text-primary);
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
-::-webkit-scrollbar-track {
-  background: var(--bg-base);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 0;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
-}
-
+/* ── Utilities ────────────────────────────────────────── */
 @layer utilities {
   .section-label {
     font-family: var(--font-mono), monospace;
@@ -73,8 +83,8 @@ body {
 
   .grid-texture {
     background-image:
-      linear-gradient(rgba(30, 30, 30, 0.4) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(30, 30, 30, 0.4) 1px, transparent 1px);
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
     background-size: 60px 60px;
   }
 

@@ -88,12 +88,13 @@ export default function Terminal() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  /* Terminal is always dark — pinned to hardcoded values, ignores theme */
   return (
     <div
       className="relative font-mono text-sm leading-7 p-6 w-full scanline"
       style={{
         background: "#0a0a0a",
-        border: "1px solid var(--border)",
+        border: "1px solid #1e1e1e",
         borderRadius: "2px",
       }}
     >
@@ -101,9 +102,9 @@ export default function Terminal() {
       <div
         className="absolute top-0 right-0 px-3 py-1 font-mono text-xs"
         style={{
-          color: "var(--text-muted)",
-          borderBottom: "1px solid var(--border)",
-          borderLeft: "1px solid var(--border)",
+          color: "#444444",
+          borderBottom: "1px solid #1e1e1e",
+          borderLeft: "1px solid #1e1e1e",
         }}
       >
         terminal
@@ -114,17 +115,17 @@ export default function Terminal() {
           <div key={i} className="flex">
             {line.type === "cmd" ? (
               <span>
-                <span style={{ color: "var(--accent-green)" }}>$ </span>
-                <span style={{ color: "var(--text-primary)" }}>{line.text}</span>
+                <span style={{ color: "#00e87a" }}>$ </span>
+                <span style={{ color: "#e8e8e8" }}>{line.text}</span>
                 {i === lines.length - 1 && !done && (
                   <span
                     className="inline-block w-[7px] h-[14px] ml-px animate-blink align-middle"
-                    style={{ background: "var(--accent-green)", verticalAlign: "text-bottom" }}
+                    style={{ background: "#00e87a", verticalAlign: "text-bottom" }}
                   />
                 )}
               </span>
             ) : (
-              <span style={{ color: "var(--text-secondary)", paddingLeft: "0" }}>
+              <span style={{ color: "#888888" }}>
                 {line.text}
               </span>
             )}
@@ -133,10 +134,10 @@ export default function Terminal() {
 
         {done && (
           <div>
-            <span style={{ color: "var(--accent-green)" }}>$ </span>
+            <span style={{ color: "#00e87a" }}>$ </span>
             <span
               className="inline-block w-[7px] h-[14px] ml-px animate-blink align-middle"
-              style={{ background: "var(--accent-green)", verticalAlign: "text-bottom" }}
+              style={{ background: "#00e87a", verticalAlign: "text-bottom" }}
             />
           </div>
         )}
