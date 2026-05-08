@@ -11,6 +11,13 @@ const socials = [
   { label: "Email", href: `mailto:${meta.email}` },
 ]
 
+const availabilityDetails = [
+  { label: "Status", value: "Open to opportunities" },
+  { label: "Type", value: "Full-time & Contract" },
+  { label: "Location", value: "Remote (any timezone)" },
+  { label: "Notice", value: "Available immediately" },
+]
+
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" })
   const [submitted, setSubmitted] = useState(false)
@@ -33,63 +40,105 @@ export default function Contact() {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        // 007 — Contact
+        // 008 — Contact
       </motion.p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-        {/* Left: header + socials */}
+        {/* Left: header + availability + socials */}
         <motion.div
-          className="flex flex-col gap-6"
+          className="flex flex-col gap-8"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
         >
-          <h2
-            className="font-sans font-black tracking-tight"
-            style={{
-              fontSize: "clamp(2rem, 5vw, 3.5rem)",
-              color: "var(--text-primary)",
-              letterSpacing: "-0.03em",
-            }}
-          >
-            Let&apos;s talk.
-          </h2>
-          <p
-            className="font-sans text-base leading-relaxed"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            Available for security consulting, contract engineering,
-            and interesting problems.
-          </p>
-
-          <div
-            className="font-mono text-sm mt-2"
-            style={{ color: "var(--text-muted)" }}
-          >
-            {meta.email}
+          <div className="flex flex-col gap-4">
+            <h2
+              className="font-sans font-black tracking-tight"
+              style={{
+                fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                color: "var(--text-primary)",
+                letterSpacing: "-0.03em",
+              }}
+            >
+              Let&apos;s talk.
+            </h2>
+            <p
+              className="font-sans text-base leading-relaxed"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Available for security consulting, contract engineering,
+              and interesting problems. I work across time zones.
+            </p>
           </div>
 
-          {/* Socials */}
-          <div className="flex flex-wrap gap-4 mt-4">
-            {socials.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-mono text-xs transition-colors duration-150 py-1"
-                style={{ color: "var(--text-secondary)" }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLElement).style.color = "var(--accent-green)")
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLElement).style.color = "var(--text-secondary)")
-                }
+          {/* Availability grid */}
+          <div
+            className="grid grid-cols-2 gap-px"
+            style={{ border: "1px solid var(--border)" }}
+          >
+            {availabilityDetails.map((item, i) => (
+              <div
+                key={item.label}
+                className="px-5 py-4 flex flex-col gap-1"
+                style={{
+                  background: "var(--bg-surface)",
+                  borderRight: i % 2 === 0 ? "1px solid var(--border)" : "none",
+                  borderBottom: i < 2 ? "1px solid var(--border)" : "none",
+                }}
               >
-                {s.label}
-              </a>
+                <span
+                  className="font-mono text-xs"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  {item.label}
+                </span>
+                <span
+                  className="font-sans text-sm font-semibold"
+                  style={{ color: item.label === "Status" ? "var(--accent-green)" : "var(--text-primary)" }}
+                >
+                  {item.value}
+                </span>
+              </div>
             ))}
+          </div>
+
+          {/* Socials + CV */}
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-wrap gap-5">
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-xs transition-colors duration-150"
+                  style={{ color: "var(--text-secondary)" }}
+                  onMouseEnter={(e) =>
+                    ((e.currentTarget as HTMLElement).style.color = "var(--accent-green)")
+                  }
+                  onMouseLeave={(e) =>
+                    ((e.currentTarget as HTMLElement).style.color = "var(--text-secondary)")
+                  }
+                >
+                  {s.label}
+                </a>
+              ))}
+            </div>
+            <a
+              href={meta.cv}
+              download
+              className="font-mono text-xs w-fit transition-colors duration-150 flex items-center gap-2"
+              style={{ color: "var(--text-muted)" }}
+              onMouseEnter={(e) =>
+                ((e.currentTarget as HTMLElement).style.color = "var(--accent-cyan)")
+              }
+              onMouseLeave={(e) =>
+                ((e.currentTarget as HTMLElement).style.color = "var(--text-muted)")
+              }
+            >
+              Download CV (PDF) →
+            </a>
           </div>
         </motion.div>
 
@@ -191,12 +240,10 @@ export default function Contact() {
                   borderRadius: "2px",
                 }}
                 onMouseEnter={(e) => {
-                  const el = e.currentTarget
-                  el.style.background = "var(--terminal-glow)"
+                  e.currentTarget.style.background = "var(--terminal-glow)"
                 }}
                 onMouseLeave={(e) => {
-                  const el = e.currentTarget
-                  el.style.background = "transparent"
+                  e.currentTarget.style.background = "transparent"
                 }}
               >
                 Send message

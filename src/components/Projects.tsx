@@ -18,7 +18,7 @@ export default function Projects() {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        // 004 — Work
+        // 005 — Work
       </motion.p>
 
       <motion.h2

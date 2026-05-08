@@ -16,7 +16,7 @@ export default function Stack() {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        // 003 — Stack
+        // 004 — Stack
       </motion.p>
 
       <motion.h2

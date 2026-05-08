@@ -16,12 +16,12 @@ export default function Hero() {
       className="relative min-h-screen flex items-center grid-texture"
       style={{ paddingTop: "4rem" }}
     >
-      {/* Radial vignette to soften grid edges */}
+      {/* Radial vignette */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, #080808 100%)",
+            "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, var(--bg-base) 100%)",
         }}
       />
 
@@ -29,10 +29,30 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-center">
           {/* Left — text */}
           <div className="flex flex-col gap-6">
+
+            {/* Availability badge */}
+            {meta.availableNow && (
+              <motion.div {...fadeUp(0.05)} className="flex items-center gap-2 w-fit">
+                <span
+                  className="inline-block w-2 h-2 rounded-full"
+                  style={{
+                    background: "var(--accent-green)",
+                    boxShadow: "0 0 6px var(--accent-green)",
+                  }}
+                />
+                <span
+                  className="font-mono text-xs"
+                  style={{ color: "var(--accent-green)" }}
+                >
+                  {meta.availability}
+                </span>
+              </motion.div>
+            )}
+
             <motion.p
               {...fadeUp(0.1)}
               className="font-mono text-xs tracking-widest uppercase"
-              style={{ color: "var(--accent-green)" }}
+              style={{ color: "var(--text-muted)" }}
             >
               &gt; {meta.role}
             </motion.p>
@@ -74,24 +94,48 @@ export default function Hero() {
                   borderRadius: "2px",
                 }}
                 onMouseEnter={(e) => {
-                  const el = e.currentTarget
-                  el.style.background = "var(--terminal-glow)"
+                  e.currentTarget.style.background = "var(--terminal-glow)"
                 }}
                 onMouseLeave={(e) => {
-                  const el = e.currentTarget
-                  el.style.background = "transparent"
+                  e.currentTarget.style.background = "transparent"
                 }}
               >
                 See my work
               </a>
+
+              <a
+                href={meta.cv}
+                download
+                className="font-sans text-sm px-6 py-3 transition-all duration-200"
+                style={{
+                  border: "1px solid var(--border)",
+                  color: "var(--text-secondary)",
+                  borderRadius: "2px",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "var(--text-secondary)"
+                  e.currentTarget.style.color = "var(--text-primary)"
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "var(--border)"
+                  e.currentTarget.style.color = "var(--text-secondary)"
+                }}
+              >
+                Download CV
+              </a>
+
               <a
                 href="#writing"
                 className="font-sans text-sm px-2 py-3 flex items-center gap-2 transition-colors duration-150"
-                style={{ color: "var(--text-secondary)" }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--text-primary)")}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--text-secondary)")}
+                style={{ color: "var(--text-muted)" }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)"
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = "var(--text-muted)"
+                }}
               >
-                Read my writing <span aria-hidden>→</span>
+                Writing <span aria-hidden>→</span>
               </a>
             </motion.div>
           </div>

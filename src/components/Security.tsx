@@ -17,7 +17,7 @@ export default function Security() {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        // 005 — Security
+        // 006 — Security
       </motion.p>
 
       <motion.h2

@@ -17,7 +17,7 @@ export default function Writing() {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        // 006 — Writing
+        // 007 — Writing
       </motion.p>
 
       <div className="flex items-end justify-between mb-16">
