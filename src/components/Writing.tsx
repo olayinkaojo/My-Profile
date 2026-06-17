@@ -37,7 +37,7 @@ export default function Writing() {
         </motion.h2>
 
         <motion.a
-          href="#"
+          href="/blog"
           className="font-sans text-sm hidden sm:flex items-center gap-1 transition-opacity duration-150"
           style={{ color: "var(--accent-green)" }}
           initial={{ opacity: 0 }}
@@ -55,7 +55,7 @@ export default function Writing() {
         {articles.map((article, i) => (
           <motion.a
             key={article.slug}
-            href={`#${article.slug}`}
+            href={`/blog/${article.slug}`}
             className="group flex items-center justify-between gap-6 py-6 transition-all duration-150"
             style={{
               borderTop: "1px solid var(--border)",
@@ -101,7 +101,7 @@ export default function Writing() {
       </div>
 
       <motion.a
-        href="#"
+        href="/blog"
         className="mt-6 font-sans text-sm sm:hidden flex items-center gap-1 transition-opacity duration-150"
         style={{ color: "var(--accent-green)" }}
         initial={{ opacity: 0 }}

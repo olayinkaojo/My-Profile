@@ -164,24 +164,24 @@ export const articles: Article[] = [
     date: "2025-03-10",
     title: "Building RBAC That Actually Holds Under Attack",
     tag: "security",
-    slug: "rbac-under-attack",
+    slug: "building-rbac-that-holds-under-attack",
   },
   {
     date: "2025-01-22",
     title: "SIEM Tuning for Small Teams: Cutting the Noise",
     tag: "ops",
-    slug: "siem-tuning",
+    slug: "siem-tuning-for-small-teams",
   },
   {
     date: "2024-11-08",
     title: "CI/CD Security Gates: What Most Teams Skip",
     tag: "devops",
-    slug: "cicd-security",
+    slug: "cicd-security-gates",
   },
   {
     date: "2024-09-14",
     title: "Threat Intelligence for African SMEs — A Different Problem",
     tag: "strategy",
-    slug: "threat-intel-africa",
+    slug: "threat-intelligence-african-smes",
   },
 ]

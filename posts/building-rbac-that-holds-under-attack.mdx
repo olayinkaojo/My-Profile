@@ -1,0 +1,14 @@
+---
+title: "Building RBAC That Actually Holds Under Attack"
+date: "2025-03-10"
+tags: ["Security", "Go", "Engineering"]
+excerpt: "Most RBAC implementations look correct until someone tests them adversarially. Here's what breaks, why it breaks, and how to build role-based access control that holds up when someone is actively trying to subvert it."
+---
+
+# Building RBAC That Actually Holds Under Attack
+
+Role-based access control is one of those things that looks deceptively simple. You have roles. You have permissions. You assign roles to users. Done, right?
+
+Not quite. Most RBAC implementations are built to handle the happy path — legitimate users doing legitimate things. The moment you start testing them adversarially, cracks appear. Privilege escalation through role inheritance chains that nobody thought through. Permission checks that happen client-side and can be bypassed. Audit logs that record what *should* have happened, not what actually did.
+
+This post is a work in progress — I'm building a more complete write-up of what I learned implementing the hierarchical RBAC system at the core of [GoLogWatch](https://github.com/olayinkaojo) and the RBAC Security Engine, where the requirement was cross-platform consistency across Linux and Windows servers. Come back soon for the full breakdown.

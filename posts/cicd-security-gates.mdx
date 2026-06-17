@@ -1,0 +1,14 @@
+---
+title: "CI/CD Security Gates: What Most Teams Skip"
+date: "2024-11-08"
+tags: ["DevSecOps", "CI/CD", "Engineering"]
+excerpt: "Shifting security left sounds good in theory. In practice, most teams bolt on a SAST scan at the end and call it DevSecOps. Here's what the pipeline actually needs to block real threats at build time."
+---
+
+# CI/CD Security Gates: What Most Teams Skip
+
+"Shift left" has become one of those phrases that means everything and nothing. Teams add a vulnerability scanner to the pipeline, watch it produce a 200-item report that nobody reads, and declare victory.
+
+Real security gating is about hard blocks, not reports. It's about knowing which findings actually represent risk in your specific codebase and build pipeline — and failing the build on those, not on every theoretical CVSS 7.0 that affects a library you use but haven't loaded.
+
+I built a pipeline with embedded SAST via Semgrep, dependency auditing, and policy-as-code checks that eliminated 80% of low-hanging-fruit findings before they ever reached a human reviewer. Full breakdown in progress — coming soon.
