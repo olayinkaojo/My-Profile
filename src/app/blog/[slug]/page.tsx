@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       publishedTime: post.date,
     },
     alternates: {
-      canonical: `https://blog.olayinka.name.ng/${slug}`,
+      canonical: `https://www.olayinka.name.ng/blog/${slug}`,
     },
   }
 }

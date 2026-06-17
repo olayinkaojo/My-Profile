@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   alternates: {
-    canonical: "https://blog.olayinka.name.ng",
+    canonical: "https://www.olayinka.name.ng/blog",
   },
 }
 
