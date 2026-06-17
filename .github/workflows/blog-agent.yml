@@ -1,0 +1,88 @@
+name: Blog Agent
+
+on:
+  schedule:
+    - cron: "0 7 * * 1"  # Every Monday at 7:00 UTC (8:00 WAT)
+  workflow_dispatch:       # Manual trigger
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  draft-post:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r agent/requirements.txt
+
+      - name: Run blog agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python agent/agent.py
+
+      - name: Check for new draft files
+        id: check_drafts
+        run: |
+          if git status --porcelain posts/drafts/ | grep -q "^??"; then
+            echo "has_draft=true" >> "$GITHUB_OUTPUT"
+            NEW_FILE=$(git status --porcelain posts/drafts/ | grep "^??" | head -1 | awk '{print $2}')
+            echo "draft_file=$NEW_FILE" >> "$GITHUB_OUTPUT"
+            SLUG=$(basename "$NEW_FILE" .mdx)
+            echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_draft=false" >> "$GITHUB_OUTPUT"
+            echo "No new draft files found. Agent may have skipped or errored."
+          fi
+
+      - name: Extract post title
+        id: extract_title
+        if: steps.check_drafts.outputs.has_draft == 'true'
+        run: |
+          TITLE=$(grep '^title:' "${{ steps.check_drafts.outputs.draft_file }}" | head -1 | sed 's/^title: "//' | sed 's/"$//')
+          echo "title=$TITLE" >> "$GITHUB_OUTPUT"
+
+      - name: Create branch, commit, and push
+        if: steps.check_drafts.outputs.has_draft == 'true'
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          BRANCH="draft/blog-${DATE}"
+          git config user.name "Blog Agent"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add posts/drafts/
+          git commit -m "draft: ${{ steps.extract_title.outputs.title }} [$DATE]"
+          git push origin "$BRANCH"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Open Pull Request
+        if: steps.check_drafts.outputs.has_draft == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          BRANCH="draft/blog-${DATE}"
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "Blog draft: ${{ steps.extract_title.outputs.title }}" \
+            --body "$(cat <<'EOF'
+          AI-generated draft. Review before merging.
+
+          Merging will publish this post automatically.
+
+          **File:** \`${{ steps.check_drafts.outputs.draft_file }}\`
+
+          **To publish:** remove the \`draft: true\` line from the frontmatter, then merge.
+          EOF
+          )"

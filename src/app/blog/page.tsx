@@ -10,6 +10,21 @@ export const metadata: Metadata = {
     title: "Writing — Olayinka Ojo",
     description: "Essays on AI engineering, cybersecurity, and building tech from Africa.",
     type: "website",
+    url: "https://www.olayinka.name.ng/blog",
+    images: [
+      {
+        url: "https://www.olayinka.name.ng/blog/og?title=Writing%20%E2%80%94%20Olayinka%20Ojo&tags=AI%20Engineering%2CCybersecurity%2CAfrica",
+        width: 1200,
+        height: 630,
+        alt: "Writing — Olayinka Ojo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Writing — Olayinka Ojo",
+    description: "Essays on AI engineering, cybersecurity, and building tech from Africa.",
+    images: ["https://www.olayinka.name.ng/blog/og?title=Writing%20%E2%80%94%20Olayinka%20Ojo&tags=AI%20Engineering%2CCybersecurity%2CAfrica"],
   },
   alternates: {
     canonical: "https://www.olayinka.name.ng/blog",

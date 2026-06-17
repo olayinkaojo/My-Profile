@@ -21,6 +21,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {}
   }
 
+  const ogImageUrl = `https://www.olayinka.name.ng/blog/og?title=${encodeURIComponent(post.title)}&tags=${encodeURIComponent(post.tags.join(","))}`
+
   return {
     title: `${post.title} — Olayinka Ojo`,
     description: post.excerpt,
@@ -29,6 +31,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: post.excerpt,
       type: "article",
       publishedTime: post.date,
+      url: `https://www.olayinka.name.ng/blog/${slug}`,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: [ogImageUrl],
     },
     alternates: {
       canonical: `https://www.olayinka.name.ng/blog/${slug}`,

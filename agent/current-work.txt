@@ -1,0 +1,1 @@
+This week I am setting up an AI blog agent for my Next.js portfolio site. I am also learning RAG pipelines and vector databases as part of my AI engineering journey, and continuing Go programming through the 01-edu curriculum.
