@@ -22,6 +22,18 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Verify ANTHROPIC_API_KEY is set
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "ERROR: ANTHROPIC_API_KEY secret is not set."
+            echo "Go to: Settings → Secrets and variables → Actions → New repository secret"
+            echo "Name: ANTHROPIC_API_KEY  Value: your Anthropic API key"
+            exit 1
+          fi
+          echo "API key found."
+
       - name: Install dependencies
         run: pip install -r agent/requirements.txt
 
@@ -33,12 +45,13 @@ jobs:
       - name: Check for new draft files
         id: check_drafts
         run: |
-          if git status --porcelain posts/drafts/ | grep -q "^??"; then
+          NEW_FILE=$(find posts/drafts/ -name "*.mdx" 2>/dev/null | head -1)
+          if [ -n "$NEW_FILE" ]; then
             echo "has_draft=true" >> "$GITHUB_OUTPUT"
-            NEW_FILE=$(git status --porcelain posts/drafts/ | grep "^??" | head -1 | awk '{print $2}')
             echo "draft_file=$NEW_FILE" >> "$GITHUB_OUTPUT"
             SLUG=$(basename "$NEW_FILE" .mdx)
             echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
+            echo "Draft found: $NEW_FILE"
           else
             echo "has_draft=false" >> "$GITHUB_OUTPUT"
             echo "No new draft files found. Agent may have skipped or errored."
@@ -50,9 +63,12 @@ jobs:
         run: |
           TITLE=$(grep '^title:' "${{ steps.check_drafts.outputs.draft_file }}" | head -1 | sed 's/^title: "//' | sed 's/"$//')
           echo "title=$TITLE" >> "$GITHUB_OUTPUT"
+          echo "Title: $TITLE"
 
       - name: Create branch, commit, and push
         if: steps.check_drafts.outputs.has_draft == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           DATE=$(date +%Y-%m-%d)
           BRANCH="draft/blog-${DATE}"
@@ -62,8 +78,6 @@ jobs:
           git add posts/drafts/
           git commit -m "draft: ${{ steps.extract_title.outputs.title }} [$DATE]"
           git push origin "$BRANCH"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Open Pull Request
         if: steps.check_drafts.outputs.has_draft == 'true'
@@ -76,13 +90,10 @@ jobs:
             --base main \
             --head "$BRANCH" \
             --title "Blog draft: ${{ steps.extract_title.outputs.title }}" \
-            --body "$(cat <<'EOF'
-          AI-generated draft. Review before merging.
+            --body "AI-generated draft. Review before merging.
 
           Merging will publish this post automatically.
 
           **File:** \`${{ steps.check_drafts.outputs.draft_file }}\`
 
-          **To publish:** remove the \`draft: true\` line from the frontmatter, then merge.
-          EOF
-          )"
+          **To publish:** remove the \`draft: true\` line from the frontmatter, then merge."
