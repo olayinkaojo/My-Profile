@@ -5,12 +5,12 @@ import { meta } from "@/lib/data"
 import { useTheme } from "@/lib/theme"
 
 const links = [
-  { label: "About", href: "#about" },
-  { label: "Work", href: "#projects" },
-  { label: "Security", href: "#security" },
-  { label: "Writing", href: "#writing" },
-  { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "#about", id: "about" },
+  { label: "Work", href: "#projects", id: "projects" },
+  { label: "Security", href: "#security", id: "security" },
+  { label: "Writing", href: "#writing", id: "writing" },
+  { label: "Blog", href: "/blog", id: "" },
+  { label: "Contact", href: "#contact", id: "contact" },
 ]
 
 function ThemeToggle() {
@@ -49,14 +49,72 @@ function ThemeToggle() {
   )
 }
 
+function CommandKHint() {
+  const openPalette = () => {
+    window.dispatchEvent(new CustomEvent("cmdk:open"))
+  }
+
+  return (
+    <button
+      onClick={openPalette}
+      aria-label="Open command palette"
+      className="hidden md:flex items-center gap-1.5 px-2 py-1 font-mono text-xs transition-colors duration-150"
+      style={{
+        border: "1px solid var(--border)",
+        borderRadius: "2px",
+        color: "var(--text-muted)",
+      }}
+      onMouseEnter={(e) => {
+        const el = e.currentTarget as HTMLElement
+        el.style.borderColor = "var(--accent-green)"
+        el.style.color = "var(--accent-green)"
+      }}
+      onMouseLeave={(e) => {
+        const el = e.currentTarget as HTMLElement
+        el.style.borderColor = "var(--border)"
+        el.style.color = "var(--text-muted)"
+      }}
+    >
+      <span>⌘K</span>
+    </button>
+  )
+}
+
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [activeSection, setActiveSection] = useState("")
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 20)
+    const handler = () => {
+      setScrolled(window.scrollY > 20)
+      const total = document.documentElement.scrollHeight - window.innerHeight
+      setProgress(total > 0 ? Math.min(window.scrollY / total, 1) : 0)
+    }
+    handler()
     window.addEventListener("scroll", handler, { passive: true })
     return () => window.removeEventListener("scroll", handler)
+  }, [])
+
+  // Track which section is in view
+  useEffect(() => {
+    const ids = links.map((l) => l.id).filter(Boolean)
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null)
+    if (sections.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActiveSection(entry.target.id)
+        }
+      },
+      { rootMargin: "-30% 0px -60% 0px" }
+    )
+    sections.forEach((s) => observer.observe(s))
+    return () => observer.disconnect()
   }, [])
 
   return (
@@ -70,6 +128,18 @@ export default function Nav() {
         borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
       }}
     >
+      {/* Scroll progress */}
+      <div
+        aria-hidden
+        className="absolute top-0 left-0 h-px"
+        style={{
+          width: `${progress * 100}%`,
+          background: "var(--accent-green)",
+          opacity: scrolled ? 1 : 0,
+          transition: "opacity 0.3s ease",
+        }}
+      />
+
       <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <a
           href="#"
@@ -81,22 +151,30 @@ export default function Nav() {
 
         {/* Desktop links */}
         <ul className="hidden md:flex items-center gap-8">
-          {links.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="font-sans text-sm transition-colors duration-150"
-                style={{ color: "var(--text-secondary)" }}
-                onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "var(--text-primary)")}
-                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "var(--text-secondary)")}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
+          {links.map((link) => {
+            const isActive = link.id !== "" && link.id === activeSection
+            return (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className="font-sans text-sm transition-colors duration-150"
+                  style={{ color: isActive ? "var(--accent-green)" : "var(--text-secondary)" }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) (e.target as HTMLElement).style.color = "var(--text-primary)"
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) (e.target as HTMLElement).style.color = "var(--text-secondary)"
+                  }}
+                >
+                  {link.label}
+                </a>
+              </li>
+            )
+          })}
         </ul>
 
         <div className="flex items-center gap-3">
+          <CommandKHint />
           <ThemeToggle />
 
           {/* Mobile toggle */}

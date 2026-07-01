@@ -24,6 +24,9 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    const subject = encodeURIComponent(`Portfolio contact — ${form.name}`)
+    const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`)
+    window.location.href = `mailto:${meta.email}?subject=${subject}&body=${body}`
     setSubmitted(true)
   }
 
@@ -160,10 +163,15 @@ export default function Contact() {
               }}
             >
               <p className="font-mono text-sm" style={{ color: "var(--accent-green)" }}>
-                Message received.
+                Opening your mail client…
               </p>
               <p className="font-sans text-sm" style={{ color: "var(--text-secondary)" }}>
-                I&apos;ll get back to you shortly.
+                Your message is pre-filled and ready to send. If nothing opened,
+                email me directly at{" "}
+                <a href={`mailto:${meta.email}`} style={{ color: "var(--accent-cyan)" }}>
+                  {meta.email}
+                </a>
+                .
               </p>
             </div>
           ) : (
