@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import SectionHeader from "@/components/SectionHeader"
 import { skillGroups } from "@/lib/data"
 
 export default function Stack() {
@@ -9,30 +10,7 @@ export default function Stack() {
       className="max-w-6xl mx-auto px-6 py-24 lg:py-32"
       style={{ borderTop: "1px solid var(--border)" }}
     >
-      <motion.p
-        className="section-label mb-4"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        // 004 — Stack
-      </motion.p>
-
-      <motion.h2
-        className="font-sans font-black tracking-tight mb-16"
-        style={{
-          fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
-          color: "var(--text-primary)",
-          letterSpacing: "-0.025em",
-        }}
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-      >
-        What I work with
-      </motion.h2>
+      <SectionHeader number="004" label="Stack" title="What I work with" />
 
       <div className="flex flex-col gap-8">
         {skillGroups.map((group, i) => (

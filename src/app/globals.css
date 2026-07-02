@@ -107,6 +107,35 @@ body {
     background-size: 60px 60px;
   }
 
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--text-primary);
+  }
+
+  .ghost-number {
+    position: absolute;
+    top: -0.12em;
+    left: -0.03em;
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-size: clamp(5.5rem, 11vw, 9.5rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--text-muted);
+    opacity: 0.28;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .animate-marquee {
+    animation: marquee 36s linear infinite;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+
   .scanline::after {
     content: "";
     position: absolute;
@@ -120,6 +149,11 @@ body {
     );
     pointer-events: none;
   }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 /* ── Blog prose styles ────────────────────────────────── */

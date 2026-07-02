@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import CountUp from "@/components/CountUp"
 import { meta, stats } from "@/lib/data"
 
 export default function About() {
@@ -9,15 +10,20 @@ export default function About() {
       id="about"
       className="max-w-6xl mx-auto px-6 py-24 lg:py-32"
     >
-      <motion.p
-        className="section-label mb-4"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        // 001 — About
-      </motion.p>
+      <div className="relative mb-14">
+        <span aria-hidden className="ghost-number">
+          001
+        </span>
+        <motion.p
+          className="section-label relative pt-14"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          // 001 — About
+        </motion.p>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
         {/* Bio — 3/5 */}
@@ -31,9 +37,10 @@ export default function About() {
           <h2
             className="font-sans font-black tracking-tight"
             style={{
-              fontSize: "clamp(1.8rem, 4vw, 3rem)",
+              fontSize: "clamp(2rem, 5vw, 3.5rem)",
               color: "var(--text-primary)",
-              letterSpacing: "-0.025em",
+              letterSpacing: "-0.03em",
+              lineHeight: 1.08,
             }}
           >
             Building at the edge of<br />
@@ -62,7 +69,7 @@ export default function About() {
           </div>
         </motion.div>
 
-        {/* Stats — 2/5 */}
+        {/* Stats — 2/5, counts up on scroll */}
         <motion.div
           className="lg:col-span-2 grid grid-cols-2 gap-px"
           initial={{ opacity: 0, y: 30 }}
@@ -81,16 +88,15 @@ export default function About() {
                 borderBottom: i < 2 ? "1px solid var(--border)" : "none",
               }}
             >
-              <span
+              <CountUp
+                value={stat.value}
                 className="font-sans font-black leading-none"
                 style={{
-                  fontSize: "clamp(2rem, 4vw, 3rem)",
+                  fontSize: "clamp(2.2rem, 4.5vw, 3.4rem)",
                   color: "var(--accent-green)",
                   letterSpacing: "-0.03em",
                 }}
-              >
-                {stat.value}
-              </span>
+              />
               <span
                 className="font-mono text-xs leading-snug"
                 style={{ color: "var(--text-muted)" }}

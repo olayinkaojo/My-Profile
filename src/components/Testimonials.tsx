@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import SectionHeader from "@/components/SectionHeader"
 import { testimonials } from "@/lib/data"
 
 export default function Testimonials() {
@@ -9,30 +10,7 @@ export default function Testimonials() {
       className="max-w-6xl mx-auto px-6 py-24 lg:py-32"
       style={{ borderTop: "1px solid var(--border)" }}
     >
-      <motion.p
-        className="section-label mb-4"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        // 003 — Social proof
-      </motion.p>
-
-      <motion.h2
-        className="font-sans font-black tracking-tight mb-16"
-        style={{
-          fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
-          color: "var(--text-primary)",
-          letterSpacing: "-0.025em",
-        }}
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-      >
-        What people say
-      </motion.h2>
+      <SectionHeader number="003" label="Social proof" title="What people say" />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-px"
         style={{ border: "1px solid var(--border)" }}

@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import SectionHeader from "@/components/SectionHeader"
 import { ctfEntries, certifications } from "@/lib/data"
 
 export default function Security() {
@@ -10,30 +11,7 @@ export default function Security() {
       className="max-w-6xl mx-auto px-6 py-24 lg:py-32"
       style={{ borderTop: "1px solid var(--border)" }}
     >
-      <motion.p
-        className="section-label mb-4"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        // 006 — Security
-      </motion.p>
-
-      <motion.h2
-        className="font-sans font-black tracking-tight mb-16"
-        style={{
-          fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
-          color: "var(--text-primary)",
-          letterSpacing: "-0.025em",
-        }}
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-      >
-        Credentials & track record
-      </motion.h2>
+      <SectionHeader number="006" label="Security" title="Credentials & track record" />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
         {/* CTF / Platforms */}

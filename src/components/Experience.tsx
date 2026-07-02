@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import SectionHeader from "@/components/SectionHeader"
 import { experiences } from "@/lib/data"
 
 export default function Experience() {
@@ -9,30 +10,7 @@ export default function Experience() {
       className="max-w-6xl mx-auto px-6 py-24 lg:py-32"
       style={{ borderTop: "1px solid var(--border)" }}
     >
-      <motion.p
-        className="section-label mb-4"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        // 002 — Experience
-      </motion.p>
-
-      <motion.h2
-        className="font-sans font-black tracking-tight mb-16"
-        style={{
-          fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
-          color: "var(--text-primary)",
-          letterSpacing: "-0.025em",
-        }}
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-      >
-        Where I&apos;ve worked
-      </motion.h2>
+      <SectionHeader number="002" label="Experience" title="Where I've worked" />
 
       <div className="flex flex-col gap-0">
         {experiences.map((exp, i) => (

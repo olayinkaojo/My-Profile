@@ -1,5 +1,6 @@
 import Nav from "@/components/Nav"
 import Hero from "@/components/Hero"
+import Marquee from "@/components/Marquee"
 import About from "@/components/About"
 import Experience from "@/components/Experience"
 import Testimonials from "@/components/Testimonials"
@@ -15,6 +16,7 @@ export default function Home() {
     <main>
       <Nav />
       <Hero />
+      <Marquee />
       <About />
       <Experience />
       <Testimonials />

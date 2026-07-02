@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import SectionHeader from "@/components/SectionHeader"
 import { articles } from "@/lib/data"
 
 export default function Writing() {
@@ -10,46 +11,17 @@ export default function Writing() {
       className="max-w-6xl mx-auto px-6 py-24 lg:py-32"
       style={{ borderTop: "1px solid var(--border)" }}
     >
-      <motion.p
-        className="section-label mb-4"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        // 007 — Writing
-      </motion.p>
-
-      <div className="flex items-end justify-between mb-16">
-        <motion.h2
-          className="font-sans font-black tracking-tight"
-          style={{
-            fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
-            color: "var(--text-primary)",
-            letterSpacing: "-0.025em",
-          }}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          Writing
-        </motion.h2>
-
-        <motion.a
+      <SectionHeader number="007" label="Writing" title="Writing">
+        <a
           href="/blog"
           className="font-sans text-sm hidden sm:flex items-center gap-1 transition-opacity duration-150"
           style={{ color: "var(--accent-green)" }}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
           onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = "0.7")}
           onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = "1")}
         >
           Read all →
-        </motion.a>
-      </div>
+        </a>
+      </SectionHeader>
 
       <div className="flex flex-col">
         {articles.map((article, i) => (

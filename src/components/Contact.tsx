@@ -36,18 +36,66 @@ export default function Contact() {
       className="max-w-6xl mx-auto px-6 py-24 lg:py-32"
       style={{ borderTop: "1px solid var(--border)" }}
     >
-      <motion.p
-        className="section-label mb-4"
+      <div className="relative mb-14">
+        <span aria-hidden className="ghost-number">
+          008
+        </span>
+        <motion.p
+          className="section-label relative pt-14"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          // 008 — Contact
+        </motion.p>
+      </div>
+
+      <motion.h2
+        className="font-sans font-black tracking-tight uppercase mb-6"
+        style={{
+          fontSize: "clamp(2.8rem, 9vw, 6.5rem)",
+          color: "var(--text-primary)",
+          letterSpacing: "-0.04em",
+          lineHeight: 0.95,
+        }}
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      >
+        Let&apos;s <span className="text-outline">talk</span>.
+      </motion.h2>
+
+      <motion.a
+        href={`mailto:${meta.email}`}
+        className="inline-block font-mono mb-16 transition-colors duration-200 break-all"
+        style={{
+          fontSize: "clamp(1rem, 2.8vw, 1.6rem)",
+          color: "var(--accent-green)",
+          borderBottom: "1px solid var(--border)",
+          paddingBottom: "0.35rem",
+        }}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.55, delay: 0.15 }}
+        onMouseEnter={(e) => {
+          const el = e.currentTarget as HTMLElement
+          el.style.color = "var(--accent-cyan)"
+          el.style.borderBottomColor = "var(--accent-cyan)"
+        }}
+        onMouseLeave={(e) => {
+          const el = e.currentTarget as HTMLElement
+          el.style.color = "var(--accent-green)"
+          el.style.borderBottomColor = "var(--border)"
+        }}
       >
-        // 008 — Contact
-      </motion.p>
+        {meta.email} ↗
+      </motion.a>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-        {/* Left: header + availability + socials */}
+        {/* Left: availability + socials */}
         <motion.div
           className="flex flex-col gap-8"
           initial={{ opacity: 0, y: 24 }}
@@ -55,25 +103,13 @@ export default function Contact() {
           viewport={{ once: true }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
         >
-          <div className="flex flex-col gap-4">
-            <h2
-              className="font-sans font-black tracking-tight"
-              style={{
-                fontSize: "clamp(2rem, 5vw, 3.5rem)",
-                color: "var(--text-primary)",
-                letterSpacing: "-0.03em",
-              }}
-            >
-              Let&apos;s talk.
-            </h2>
-            <p
-              className="font-sans text-base leading-relaxed"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              Available for security consulting, contract engineering,
-              and interesting problems. I work across time zones.
-            </p>
-          </div>
+          <p
+            className="font-sans text-base leading-relaxed"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            Available for security consulting, contract engineering,
+            and interesting problems. I work across time zones.
+          </p>
 
           {/* Availability grid */}
           <div
